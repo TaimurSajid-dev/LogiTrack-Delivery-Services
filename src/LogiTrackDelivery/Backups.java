@@ -9,7 +9,6 @@ public class Backups {
     static PriorityQueue<Packages> priorityBackUp = new PriorityQueue<>();
 
     //Creating a getter method for safe
-
     static Packages loadBackup() {
         Packages packages = DataStorage.packages.poll();
         packageBackUp.add(packages);
@@ -27,6 +26,7 @@ public class Backups {
             DataStorage.packages.add(packageBackUp.poll());
         }
     }
+
     public static void reloadPriorityBackUp() {
         while (!priorityBackUp.isEmpty()){
             DataStorage.priorityPackages.add(priorityBackUp.poll());
