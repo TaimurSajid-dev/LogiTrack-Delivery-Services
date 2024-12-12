@@ -1,4 +1,5 @@
 package LogiTrackDelivery;
+import java.util.ArrayList;
 import java.util.Scanner;
 public class UserIO {
 
@@ -258,6 +259,31 @@ public class UserIO {
         }
     }
 
+    void removePackages(Packages removePackage){
+        ArrayList<Packages> storage = DataStorage.packagesArrayList;
+        System.out.println("Original " + storage);
+        for (int index = 0; index <= storage.size() - 1; index++) {
+            Packages pkg = DataStorage.packagesArrayList.get(index);
+            if (removePackage.equals(pkg)) {
+                storage.remove(index);
+            }
+            System.out.println("Changed " + storage);
+        }
+        while(!DataStorage.packages.isEmpty()){
+            DataStorage.packages.poll();
+        }
+        while (DataStorage.priorityPackages.isEmpty()){
+            DataStorage.priorityPackages.poll();
+        }
+        for (int index = 0; index <= storage.size() - 1; index++){
+            Packages pkg = storage.get(index);
+            if(pkg.priority.getValue() <= 3){
+                DataStorage.priorityPackages.offer(pkg);
+            }else if (pkg.priority.getValue() >= 4 && pkg.priority.getValue() <= 5){
+                DataStorage.packages.offer(pkg);
+            }
+        }
+    }
     ////////////////////////////////////////////////////////////////    UPDATE      ///////////////////////////////////////////////////////////////
 
     void updateZone(Packages updatePackage){
@@ -273,23 +299,33 @@ public class UserIO {
         updatePackage.packageID = updatePackage.packageID.substring(0,3) + replacement + updatePackage.packageID.substring(4);
     }
 
-    void updateAddress(Packages updatePackage){}
+    void updateAddress(Packages updatePackage){
+        Scanner read = new Scanner(System.in);
+        System.out.println("Please Enter New Address");
+        String address = read.nextLine();
+        updatePackage.address = address;
+    }
 
     void updatePriority(Packages updatePackage){
         Packages.Priority priority = convertPriority(getPriorityInput());
         updatePackage.priority = priority;
         String replacement = "";
         switch (priority){
-            case LOW -> replacement = "1";
-            case MEDIUM -> replacement = "2";
+            case LOW -> replacement = "5";
+            case MEDIUM -> replacement = "4";
             case HIGH-> replacement = "3";
-            case VERY_HIGH -> replacement = "4";
-            case EXTREMELY_HIGH -> replacement = "5";
+            case VERY_HIGH -> replacement = "2";
+            case EXTREMELY_HIGH -> replacement = "1";
         }
         updatePackage.packageID = updatePackage.packageID.substring(0,4) + replacement + updatePackage.packageID.substring(6);
     }
 
-    void updateWeight(Packages updatePackage){}
+    void updateWeight(Packages updatePackage){
+        Scanner read = new Scanner(System.in);
+        System.out.println("Please Enter New Weight");
+        Double weight = read.nextDouble();
+        updatePackage.weight = weight;
+    }
 
     void updateStatus(Packages updatePackage){}
 

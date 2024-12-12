@@ -15,11 +15,11 @@ public class Packages implements Comparable<Packages> {
     }
 
     public enum Priority {
-        LOW(1),
-        MEDIUM(2),
+        LOW(5),
+        MEDIUM(4),
         HIGH(3),
-        VERY_HIGH(4),
-        EXTREMELY_HIGH(5);
+        VERY_HIGH(2),
+        EXTREMELY_HIGH(1);
 
 
         private final Integer value;

@@ -71,13 +71,14 @@ public class Pages {
         String divide =  " ------ ";
         viewDelivery();
         BubbleSort.sort();
-        int listSize = BubbleSort.packagesArrayList.size();
+        int listSize = DataStorage.packagesArrayList.size();
         System.out.println("PackageID----Priority----Zone-------------Address------------Weight");
         for (int i = 0; i <= listSize - 1; i++){
-            Packages pkg = BubbleSort.packagesArrayList.get(i);
+            Packages pkg = DataStorage.packagesArrayList.get(i);
             System.out.println(pkg.packageID + divide + pkg.priority.getValue() + divide + pkg.zone + divide + pkg.address + divide + pkg.weight);
         }
-
+    Backups.reloadPriorityBackUp();
+    Backups.reloadBackup();
     }
 
     void viewDelivery(){
@@ -104,7 +105,8 @@ public class Pages {
 
     void removePackages(){
         UserIO handle = new UserIO();
-        //handle.removePackages();
+        Packages pkg = handle.verifyPackage();
+        handle.removePackages(pkg);
     }
 
     void updateZone(Packages updatePackage){

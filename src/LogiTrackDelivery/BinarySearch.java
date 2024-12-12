@@ -1,7 +1,7 @@
 package LogiTrackDelivery;
 
 
-import javax.xml.crypto.Data;
+
 
 public class BinarySearch {
 
@@ -11,24 +11,30 @@ public class BinarySearch {
     //sequential search algorithm.
 
         BubbleSort.sort();
-        int tail = BubbleSort.packagesArrayList.size();
+        int tail = DataStorage.packagesArrayList.size();
         int head = 0;
+        Packages foundPackage = null;
         while(head <= tail){
             int mid = (tail + head)/2;
-            Packages midPackage = BubbleSort.packagesArrayList.get(mid);
+            Packages midPackage = DataStorage.packagesArrayList.get(mid);
             String midPackageID = midPackage.packageID;
-            if (searchID.equals(midPackageID)){
-                return midPackage;
+            Boolean match = searchID.equals(midPackageID);
+            if (match == true){
+                foundPackage = midPackage;
+                Backups.reloadPriorityBackUp();
+                Backups.reloadBackup();
+                return foundPackage;
         // compare to compares the two strings alphabetically and
         // returns an integer value either positive (if greater)
         // negative (if lesser) or 0 if equal.
-        // since we are not using a
             }else if (searchID.compareTo(midPackageID) > 0 ){
                 tail = mid - 1;
             } else if (searchID.compareTo(midPackageID) < 0){
                 head = mid + 1;
             }
         }
+        Backups.reloadPriorityBackUp();
+        Backups.reloadBackup();
         return null;
     }
 }

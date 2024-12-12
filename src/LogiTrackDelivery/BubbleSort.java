@@ -1,6 +1,6 @@
 package LogiTrackDelivery;
 
-import java.util.ArrayList;
+import static LogiTrackDelivery.DataStorage.packagesArrayList;
 
 public class BubbleSort {
     // Creates and Array and sorts all items using Bubble Sort
@@ -26,7 +26,7 @@ public class BubbleSort {
                 for (int index = 0; index < arrayListSize - pass - 1; index++) {
                     Packages indexPackage = packagesArrayList.get(index);
                     Packages comparePackage = packagesArrayList.get((index + 1));
-                    if (indexPackage.priority.getValue() > comparePackage.priority.getValue() ) {
+                    if (indexPackage.priority.getValue() > comparePackage.priority.getValue()) {
                         placeHolder = indexPackage;
                         packagesArrayList.set(index, comparePackage);
                         packagesArrayList.set((index + 1), placeHolder);
@@ -36,8 +36,7 @@ public class BubbleSort {
         } else {
             System.out.println("Insufficient Packages found in directory for Sorting. Please Try Again");
         }
-        Backups.reloadPriorityBackUp();
-        Backups.reloadBackup();
+    Backups.reloadBackup();
+    Backups.reloadPriorityBackUp();
     }
-    static ArrayList<Packages> packagesArrayList = new ArrayList<>();
 }
