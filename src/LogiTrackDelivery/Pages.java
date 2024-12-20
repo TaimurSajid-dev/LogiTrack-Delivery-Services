@@ -25,7 +25,7 @@ public class Pages {
         // Variable "stopProgram" reads and stores the returned boolean value
         // ... from the method, "homePage()" found within the class, "Pages"....
         // ... ultimately returning it to method, "launchProgram()" in class, "userInterface"
-        Boolean stopProgram = handleIO.homepage(programStatus);
+        boolean stopProgram = handleIO.homepage(programStatus);
         return stopProgram;
     }
 
@@ -54,13 +54,18 @@ public class Pages {
     void updatePackage() {
         UserIO handle = new UserIO();
         Packages pkg = handle.verifyPackage();
-        banner();
-        System.out.println("1. Update Zone");
-        System.out.println("2. Update Address");
-        System.out.println("3. Update Priority");
-        System.out.println("4. Update Weight");
-        System.out.println("5. Update Status");
-        handle.updatePackage(pkg);
+        if ( pkg == null){
+            System.out.println("Invalid Code Detected null...");
+        }else {
+            banner();
+            System.out.println("1. Update Zone");
+            System.out.println("2. Update Address");
+            System.out.println("3. Update Priority");
+            System.out.println("4. Update Weight");
+            System.out.println("5. Update Status");
+            System.out.println("6. Return to Menu");
+            handle.updatePackage(pkg);
+        }
     }
 
     ////////////////////////////////////////////////////////////////    QUERY      ///////////////////////////////////////////////////////////////
@@ -103,11 +108,16 @@ public class Pages {
         handle.addPackages();
     }
 
-    void removePackages(){
+    void removePackages() {
         UserIO handle = new UserIO();
         Packages pkg = handle.verifyPackage();
-        handle.removePackages(pkg);
+        if (pkg != null) {
+            handle.removePackages(pkg);
+        } else {
+            System.out.println("This package doesn't exist");
+        }
     }
+
 
     void updateZone(Packages updatePackage){
         banner();

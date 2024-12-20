@@ -26,10 +26,12 @@ public class DataStorage {
     static void addPackage(Packages pkg) {
         Packages delivery = pkg;
         packages.add(delivery);
+        packagesArrayList.add(delivery);
 
     }
     static void addPriorityPackage(Packages pkg){
         Packages delivery = pkg;
         priorityPackages.add(delivery);
+        packagesArrayList.add(delivery);
     }
 }

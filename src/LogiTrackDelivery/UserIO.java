@@ -1,5 +1,4 @@
 package LogiTrackDelivery;
-import java.util.ArrayList;
 import java.util.Scanner;
 public class UserIO {
 
@@ -123,9 +122,7 @@ public class UserIO {
         System.out.println("Please Enter Package ID");
         String searchID = read.nextLine();
         Packages pkg = BinarySearch.search(searchID);
-        if (pkg == null){
-            load.modifyDeliveryPage();
-        } else {
+        if (pkg != null){
             return pkg;
         }
         return null;
@@ -186,6 +183,13 @@ public class UserIO {
     ////////////////////////////////////////////////////////////////    MODIFICATION      ///////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////     MODIFICATION      ///////////////////////////////////////////////////////////////
 
+    String getDoubleInput(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please Enter Weight: ");
+        String input = scan.nextLine();
+        return input;
+    }
+
     String getZoneInput(){
         Scanner read = new Scanner(System.in);
         System.out.println("Please Enter Zone (North, South, East, West)");
@@ -230,14 +234,28 @@ public class UserIO {
         }
     }
 
+    Double getWeight(String input){
+        Double convert = null;
+        boolean error = true;
+        while (error) {
+            try {
+                 convert = Double.parseDouble(input);
+            } catch (NumberFormatException | NullPointerException e) {
+                System.out.println("Invalid input detected. Please Try Again");
+                getWeight(getDoubleInput());
+            }
+            error = false;
+        }
+        return convert;
+    }
+
     void addPackages(){
         Scanner read = new Scanner(System.in);
         Packages.Zone zone = convertZone(getZoneInput());
         Packages.Priority priority = convertPriority(getPriorityInput());
         System.out.println("Please Enter Address");
         String address = read.nextLine();
-        System.out.println("Please Enter Weight");
-        Double weight = read.nextDouble();
+        Double weight = getWeight(getDoubleInput());
         Packages pkg = new Packages(zone,priority,address,weight);
         if (zone.equals(Packages.Zone.NORTH) || zone.equals(Packages.Zone.SOUTH) || zone.equals(Packages.Zone.EAST) || zone.equals(Packages.Zone.WEST)){
             assert priority != null;
@@ -260,26 +278,25 @@ public class UserIO {
     }
 
     void removePackages(Packages removePackage){
-        ArrayList<Packages> storage = DataStorage.packagesArrayList;
-        System.out.println("Original " + storage);
-        for (int index = 0; index <= storage.size() - 1; index++) {
+
+        for (int index = 0; index <= DataStorage.packagesArrayList.size() - 1; index++) {
             Packages pkg = DataStorage.packagesArrayList.get(index);
             if (removePackage.equals(pkg)) {
-                storage.remove(index);
+                DataStorage.packagesArrayList.remove(index);
+                System.out.println("Package Removed Successfully");
             }
-            System.out.println("Changed " + storage);
         }
         while(!DataStorage.packages.isEmpty()){
             DataStorage.packages.poll();
         }
-        while (DataStorage.priorityPackages.isEmpty()){
+        while (!DataStorage.priorityPackages.isEmpty()){
             DataStorage.priorityPackages.poll();
         }
-        for (int index = 0; index <= storage.size() - 1; index++){
-            Packages pkg = storage.get(index);
+        for (int index = 0; index <= DataStorage.packagesArrayList.size() - 1; index++){
+            Packages pkg =DataStorage.packagesArrayList.get(index);
             if(pkg.priority.getValue() <= 3){
                 DataStorage.priorityPackages.offer(pkg);
-            }else if (pkg.priority.getValue() >= 4 && pkg.priority.getValue() <= 5){
+            }else if (pkg.priority.getValue() <= 5){
                 DataStorage.packages.offer(pkg);
             }
         }
@@ -296,20 +313,18 @@ public class UserIO {
             case EAST -> replacement = "E";
             case WEST -> replacement = "W";
         }
-        updatePackage.packageID = updatePackage.packageID.substring(0,3) + replacement + updatePackage.packageID.substring(4);
+        updatePackage.packageID = updatePackage.packageID.substring(0,2) + replacement + updatePackage.packageID.substring(4);
     }
-
     void updateAddress(Packages updatePackage){
         Scanner read = new Scanner(System.in);
         System.out.println("Please Enter New Address");
         String address = read.nextLine();
         updatePackage.address = address;
     }
-
     void updatePriority(Packages updatePackage){
         Packages.Priority priority = convertPriority(getPriorityInput());
         updatePackage.priority = priority;
-        String replacement = "";
+        String replacement = "F";
         switch (priority){
             case LOW -> replacement = "5";
             case MEDIUM -> replacement = "4";
@@ -317,16 +332,13 @@ public class UserIO {
             case VERY_HIGH -> replacement = "2";
             case EXTREMELY_HIGH -> replacement = "1";
         }
-        updatePackage.packageID = updatePackage.packageID.substring(0,4) + replacement + updatePackage.packageID.substring(6);
+        updatePackage.packageID = updatePackage.packageID.substring(0,3) + replacement + updatePackage.packageID.substring(5);
     }
-
     void updateWeight(Packages updatePackage){
-        Scanner read = new Scanner(System.in);
         System.out.println("Please Enter New Weight");
-        Double weight = read.nextDouble();
+        Double weight = getWeight(getDoubleInput());
         updatePackage.weight = weight;
     }
-
     void updateStatus(Packages updatePackage){}
 
     ////////////////////////////////////////////////////////////////    QUERY      ///////////////////////////////////////////////////////////////

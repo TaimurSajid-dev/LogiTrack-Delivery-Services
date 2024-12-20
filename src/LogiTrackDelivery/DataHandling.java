@@ -26,5 +26,4 @@ public class DataHandling {
         Backups.reloadPriorityBackUp();
         Backups.reloadBackup();
     }
-
 }
