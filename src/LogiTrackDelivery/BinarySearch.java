@@ -17,9 +17,6 @@ public class BinarySearch {
             int mid = (tail + head) / 2;
             Packages midPackage = DataStorage.packagesArrayList.get(mid);
             String midPackageID = midPackage.packageID;
-            System.out.println(midPackageID);
-            System.out.println(searchID);
-
             if (searchID.equals(midPackageID)) {
                 foundPackage = midPackage;
                 Backups.reloadPriorityBackUp();

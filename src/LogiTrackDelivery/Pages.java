@@ -55,7 +55,7 @@ public class Pages {
         UserIO handle = new UserIO();
         Packages pkg = handle.verifyPackage();
         if ( pkg == null){
-            System.out.println("Invalid Code Detected null...");
+            System.out.println("This package doesn't exist...");
         }else {
             banner();
             System.out.println("1. Update Zone");
